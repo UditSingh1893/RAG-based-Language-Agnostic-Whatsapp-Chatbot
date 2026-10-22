@@ -39,6 +39,8 @@ This project is a multilingual WhatsApp Chatbot that uses Retrieval-Augmented Ge
     ACCESS_TOKEN=your_whatsapp_access_token
     VERIFY_TOKEN=your_custom_verify_token
     ```
+The server refuses to start if either WhatsApp variable is missing or still
+holds its `<...>` placeholder value.
 
 ## Usage
 

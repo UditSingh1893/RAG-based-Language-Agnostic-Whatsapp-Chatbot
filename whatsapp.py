@@ -7,7 +7,25 @@ app = Flask(__name__)
 
 load_dotenv()
 ACCESS_TOKEN = os.getenv("ACCESS_TOKEN")
-VERIFY_TOKEN = "my_verify_token"
+VERIFY_TOKEN = os.getenv("VERIFY_TOKEN")
+
+def _unset(value):
+    """Treat an empty, whitespace-only, or unfilled <PLACEHOLDER> as missing."""
+    if not value:
+        return True
+    stripped = value.strip()
+    if not stripped:
+        return True
+    return stripped.startswith("<") and stripped.endswith(">")
+
+missing = [name for name, value in
+           (("ACCESS_TOKEN", ACCESS_TOKEN), ("VERIFY_TOKEN", VERIFY_TOKEN))
+           if _unset(value)]
+if missing:
+    raise RuntimeError(
+        f"Missing required environment variable(s): {', '.join(missing)}. "
+        "Set them in your .env file before starting the server."
+    )
 
 @app.route('/webhook', methods=['GET'])
 def verify_webhook():
