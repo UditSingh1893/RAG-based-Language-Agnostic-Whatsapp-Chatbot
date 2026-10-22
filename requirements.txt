@@ -1,18 +1,41 @@
-flask
-requests
-python-dotenv
-langchain
-langchain-chroma
-langchain-groq
-langchain-huggingface
-langchain-community
-langchain-text-splitters
-chromadb
-sentence-transformers
-langdetect
-torch
-unstructured
-pypdf
+# Core
+python-dotenv==1.0.1
+requests==2.31.0
+flask==3.0.0
+langdetect==1.0.9
+
+# Torch
+torch==2.9.1
+
+# LangChain core & ecosystem (version-aligned)
+langchain==0.2.16
+langchain-core==0.2.39
+langchain-community==0.2.16
+langchain-text-splitters==0.2.4
+
+# HuggingFace integrations
+langchain-huggingface==0.0.3
+sentence-transformers==2.7.0
+transformers==4.44.2
+
+# Vector DB
+chromadb==0.4.24
+langchain-chroma==0.1.4
+
+# LLM provider
+langchain-groq==0.1.9
+
+# PDF / document loaders
+pypdf==4.2.0
+unstructured==0.15.7
+unstructured-inference==0.7.36
+unstructured-pytesseract==0.3.13
+pillow==10.4.0
 python-docx
-openpyxl
-networkx
+
+# Excel support
+openpyxl==3.1.5
+
+# Utility
+numpy==1.26.4
+tqdm==4.66.5

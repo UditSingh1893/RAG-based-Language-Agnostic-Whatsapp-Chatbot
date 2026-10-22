@@ -31,11 +31,11 @@ This project is a multilingual WhatsApp Chatbot that uses Retrieval-Augmented Ge
     ```
 
 3.  **Set up Environment Variables:**
-    Create a `.env` file in the root directory
-    
+    Create a `.env` file in the root directory:
     Fill in your API keys and tokens in `.env`:
     ```env
-    API_KEY=your_api_key
+    GROQ_API_KEY=your_groq_api_key
+    GROQ_TRANSLATE_API_KEY=your_groq_translate_api_key # Can be the same as above
     ACCESS_TOKEN=your_whatsapp_access_token
     VERIFY_TOKEN=your_custom_verify_token
     ```
@@ -87,4 +87,3 @@ The server will start on `http://0.0.0.0:5000`.
 -   `requirements.txt`: Python dependencies.
 -   `data/`: Directory to store your knowledge base documents.
 -   `vector_store/`: Directory where ChromaDB stores embeddings.
-

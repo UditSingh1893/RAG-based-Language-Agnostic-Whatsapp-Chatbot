@@ -9,7 +9,7 @@ DATA_DIR = "data"
 VECTOR_DIR = "vector_store"
 
 embeddings = HuggingFaceEmbeddings(
-    model_name="BAAI/bge-small-en-v1.5",
+    model_name="BAAI/bge-m3",
     model_kwargs={"device": "cuda" if torch.cuda.is_available() else "cpu"},
     encode_kwargs={"normalize_embeddings": True}
 )
@@ -61,7 +61,7 @@ def get_new_files():
 
 # Embed only new files and add to ChromaDB
 def update_vector_store():
-    new_files, old_records, new_records = get_new_files()
+    new_files, processed, current_files = get_new_files()
 
     if not new_files:
         print("\tNo new or updated files detected.")
@@ -83,7 +83,7 @@ def update_vector_store():
                     loader = PyPDFLoader(path)
                     docs.extend(loader.load())
                     continue
-                except:
+                except Exception:
                     loader = UnstructuredPDFLoader(path, mode="elements")
             elif ext == "docx":
                 loader = UnstructuredWordDocumentLoader(path)
@@ -96,6 +96,7 @@ def update_vector_store():
                 continue
 
             docs.extend(loader.load())
+
         except Exception as e:
             print(f"\tError loading {file}: {e}")
 
@@ -105,17 +106,17 @@ def update_vector_store():
 
     # Create embeddings only for new documents
     splitter = RecursiveCharacterTextSplitter(
-        chunk_size=1500,
-        chunk_overlap=200,
+        chunk_size=800,
+        chunk_overlap=120,
         separators=["\n\n", "\n", ".", "!", "?", " "]
     )
     chunks = splitter.split_documents(docs)
     vectordb.add_documents(chunks)
 
     # Update record
-    old_records.update(new_records)
+    processed.update(current_files)
     with open(PROCESSED_FILE, "w") as f:
-        json.dump(old_records, f, indent=4)
+        json.dump(processed, f, indent=4)
 
     print(f"\tAdded {len(chunks)} chunks from {len(new_files)} file(s) to vector store.")
 
